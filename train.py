@@ -1,6 +1,8 @@
 import pandas as pd
 import joblib
 
+from preprocessing import clean_text
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -10,26 +12,20 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
 print("=" * 60)
-print("           MODEL TRAINING")
+print("        FAKE NEWS MODEL TRAINING")
 print("=" * 60)
 
-# ==========================================================
-# Load Dataset
-# ==========================================================
+
 
 news = pd.read_csv("data/clean_news.csv")
 
 print("\nDataset Shape :", news.shape)
 
-# ==========================================================
-# Keep Required Columns
-# ==========================================================
+
 
 news = news[["text", "label"]]
 
-# ==========================================================
-# Remove Missing Values
-# ==========================================================
+
 
 news.dropna(inplace=True)
 
@@ -37,18 +33,21 @@ news["text"] = news["text"].fillna("").astype(str)
 
 news = news[news["text"].str.strip() != ""]
 
-print("\nDataset Shape After Cleaning :", news.shape)
 
-# ==========================================================
-# Features and Labels
-# ==========================================================
+
+print("\nCleaning Text...")
+
+news["text"] = news["text"].apply(clean_text)
+
+print("Text Cleaning Completed")
+
+
 
 X = news["text"]
+
 y = news["label"]
 
-# ==========================================================
-# TF-IDF
-# ==========================================================
+
 
 vectorizer = TfidfVectorizer(
     max_features=5000,
@@ -59,9 +58,7 @@ X = vectorizer.fit_transform(X)
 
 print("\nTF-IDF Shape :", X.shape)
 
-# ==========================================================
-# Train Test Split
-# ==========================================================
+
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -71,11 +68,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 print("\nTraining Shape :", X_train.shape)
+
 print("Testing Shape :", X_test.shape)
 
-# ==========================================================
-# Logistic Regression
-# ==========================================================
+
 
 print("\nTraining Logistic Regression...")
 
@@ -89,11 +85,6 @@ lr_acc = accuracy_score(y_test, lr_pred)
 
 print("Accuracy :", round(lr_acc * 100, 2), "%")
 
-print(classification_report(y_test, lr_pred))
-
-# ==========================================================
-# Naive Bayes
-# ==========================================================
 
 print("\nTraining Naive Bayes...")
 
@@ -107,9 +98,6 @@ nb_acc = accuracy_score(y_test, nb_pred)
 
 print("Accuracy :", round(nb_acc * 100, 2), "%")
 
-# ==========================================================
-# Linear SVM
-# ==========================================================
 
 print("\nTraining Linear SVM...")
 
@@ -123,9 +111,7 @@ svm_acc = accuracy_score(y_test, svm_pred)
 
 print("Accuracy :", round(svm_acc * 100, 2), "%")
 
-# ==========================================================
-# Random Forest
-# ==========================================================
+
 
 print("\nTraining Random Forest...")
 
@@ -142,9 +128,13 @@ rf_acc = accuracy_score(y_test, rf_pred)
 
 print("Accuracy :", round(rf_acc * 100, 2), "%")
 
-# ==========================================================
-# Model Comparison
-# ==========================================================
+
+
+print("\nClassification Report (Best Baseline - Logistic Regression)\n")
+
+print(classification_report(y_test, lr_pred))
+
+
 
 print("\n")
 print("=" * 60)
@@ -156,16 +146,32 @@ print(f"Naive Bayes         : {nb_acc:.4f}")
 print(f"Linear SVM          : {svm_acc:.4f}")
 print(f"Random Forest       : {rf_acc:.4f}")
 
-# ==========================================================
-# Save Best Model
-# ==========================================================
 
-best_model = svm
-best_name = "Linear SVM"
+
+models = {
+    "Logistic Regression": (lr, lr_acc),
+    "Naive Bayes": (nb, nb_acc),
+    "Linear SVM": (svm, svm_acc),
+    "Random Forest": (rf, rf_acc)
+}
+
+best_name = max(models, key=lambda x: models[x][1])
+
+best_model = models[best_name][0]
+
+best_accuracy = models[best_name][1]
+
+
 
 joblib.dump(best_model, "models/model.pkl")
+
 joblib.dump(vectorizer, "models/vectorizer.pkl")
 
-print("\nBest Model :", best_name)
-print("Model Saved Successfully")
+print("\n")
+print("=" * 60)
+print("MODEL SAVED SUCCESSFULLY")
+print("=" * 60)
 
+print("Best Model :", best_name)
+
+print("Accuracy :", round(best_accuracy * 100, 2), "%")
