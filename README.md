@@ -24,6 +24,12 @@ This project demonstrates a complete Machine Learning pipeline from raw data to 
 
 ---
 
+# 📷 Application Preview
+
+![Application Screenshot](screenshots/app.png)
+
+---
+
 # 🚀 Features
 
 * ✅ Fake & Real News Classification
@@ -32,7 +38,6 @@ This project demonstrates a complete Machine Learning pipeline from raw data to 
 * ✅ TF-IDF Feature Extraction
 * ✅ Multiple Machine Learning Models
 * ✅ Automatic Best Model Selection
-* ✅ Model Comparison
 * ✅ Saved Trained Model (.pkl)
 * ✅ Interactive Streamlit Web App
 * ✅ Modular Python Project Structure
@@ -41,8 +46,6 @@ This project demonstrates a complete Machine Learning pipeline from raw data to 
 
 # 🤖 Machine Learning Models
 
-The following machine learning algorithms were implemented and compared:
-
 | Model                         | Accuracy   |
 | ----------------------------- | ---------- |
 | Logistic Regression           | **98.66%** |
@@ -50,7 +53,7 @@ The following machine learning algorithms were implemented and compared:
 | Linear Support Vector Machine | **99.41%** |
 | Random Forest Classifier ⭐    | **99.74%** |
 
-**Best Model Selected:** Random Forest Classifier
+**Best Model:** Random Forest Classifier
 
 ---
 
@@ -60,9 +63,9 @@ The following machine learning algorithms were implemented and compared:
 * Pandas
 * NumPy
 * Scikit-learn
-* Natural Language Processing (NLP)
 * NLTK
-* TF-IDF Vectorization
+* Natural Language Processing (NLP)
+* TF-IDF
 * Joblib
 * Streamlit
 * Git
@@ -70,51 +73,13 @@ The following machine learning algorithms were implemented and compared:
 
 ---
 
-# 📂 Project Structure
-
-```text
-Fake-News-Detection/
-│
-├── data/
-│   ├── Fake.csv
-│   ├── True.csv
-│   └── clean_news.csv
-│
-├── models/
-│   ├── model.pkl
-│   └── vectorizer.pkl
-│
-├── reports/
-│
-├── app.py
-├── fake_news.py
-├── preprocessing.py
-├── train.py
-├── predict.py
-├── requirements.txt
-├── runtime.txt
-└── README.md
-```
-
----
-
 # ⚙ Installation
-
-Clone the repository
 
 ```bash
 git clone https://github.com/janvichauhan1639-source/fake-news-detection-using-nlp.git
-```
 
-Move into project directory
-
-```bash
 cd fake-news-detection-using-nlp
-```
 
-Install required packages
-
-```bash
 pip install -r requirements.txt
 ```
 
@@ -122,19 +87,19 @@ pip install -r requirements.txt
 
 # ▶ Run the Project
 
-Train the model
+Train Model
 
 ```bash
 python train.py
 ```
 
-Predict news from terminal
+Predict News
 
 ```bash
 python predict.py
 ```
 
-Run Streamlit App
+Run Streamlit
 
 ```bash
 streamlit run app.py
@@ -143,8 +108,6 @@ streamlit run app.py
 ---
 
 # 📊 Model Evaluation
-
-Evaluation metrics used:
 
 * Accuracy Score
 * Precision
@@ -155,27 +118,9 @@ Evaluation metrics used:
 
 ---
 
-# 🌐 Streamlit Web App
+# 🌐 Live Demo
 
-The application allows users to:
-
-* Paste a news article
-* Automatically preprocess text
-* Predict whether the news is Fake or Real
-* Display cleaned text
-* Provide instant prediction
-
----
-
-# 🔮 Future Improvements
-
-* BERT-based Fake News Detection
-* LSTM / BiLSTM Models
-* Explainable AI (SHAP / LIME)
-* News API Integration
-* Docker Deployment
-* CI/CD Pipeline
-* Cloud Deployment
+https://fake-news-detector-janvi.streamlit.app
 
 ---
 
@@ -187,13 +132,13 @@ GitHub:
 https://github.com/janvichauhan1639-source
 
 LinkedIn:
-(Add your LinkedIn Profile URL)
+(Add Your LinkedIn URL)
 
 ---
 
 # ⭐ Support
 
-If you found this project useful, please give this repository a ⭐ on GitHub.
+If you found this project useful, please give this repository a ⭐.
 
 ---
 
