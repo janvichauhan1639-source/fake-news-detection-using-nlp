@@ -1,6 +1,8 @@
 import streamlit as st
 import joblib
+
 from preprocessing import clean_text
+
 
 
 st.set_page_config(
@@ -19,7 +21,7 @@ vectorizer = joblib.load("models/vectorizer.pkl")
 st.sidebar.title("📌 About Project")
 
 st.sidebar.write("""
-This Fake News Detection System is developed using:
+This Fake News Detection System is built using:
 
 ✅ Python
 
@@ -29,31 +31,28 @@ This Fake News Detection System is developed using:
 
 ✅ Machine Learning
 
-✅ Linear SVM
+✅ Random Forest Classifier
+
+✅ Streamlit
 """)
 
 st.sidebar.markdown("---")
 
-st.sidebar.success("Developed by Janvi Chauhan")
+st.sidebar.info("🎓 Developed by Janvi Chauhan")
 
 
-st.markdown(
-"""
+
+st.markdown("""
 <h1 style='text-align:center;color:#1f77b4;'>
 📰 Fake News Detection System
 </h1>
-""",
-unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
-st.markdown(
-"""
+st.markdown("""
 <h4 style='text-align:center;color:gray;'>
 Detect whether a news article is Fake or Real using Machine Learning & NLP
 </h4>
-""",
-unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -61,7 +60,7 @@ st.markdown("---")
 
 news = st.text_area(
     "📝 Paste News Article Here",
-    placeholder="Paste your news article here...",
+    placeholder="Paste any news article here...",
     height=220
 )
 
@@ -70,7 +69,6 @@ news = st.text_area(
 if st.button("🔍 Predict", use_container_width=True):
 
     if news.strip() == "":
-
         st.warning("⚠ Please enter some news text.")
 
     else:
@@ -83,26 +81,36 @@ if st.button("🔍 Predict", use_container_width=True):
 
         st.markdown("---")
 
-        st.subheader("Prediction Result")
+        st.subheader("📊 Prediction Result")
 
         if prediction[0] == 0:
-
             st.error("🚨 FAKE NEWS")
-
         else:
-
             st.success("✅ REAL NEWS")
 
-        st.markdown("---")
+        
+        st.markdown("### 🎯 Confidence Score")
 
-        st.subheader("Processed Text")
+        if hasattr(model, "predict_proba"):
+            probability = model.predict_proba(vector)
 
-        st.write(clean_news)
+            confidence = probability.max() * 100
 
+            st.progress(int(confidence))
+
+            st.write(f"**{confidence:.2f}% Confidence**")
+
+        else:
+            st.info("Confidence score is not available for this model.")
+
+        
+        with st.expander("🔍 View Processed Text"):
+
+            st.write(clean_news)
 
 
 st.markdown("---")
 
 st.caption(
-"© 2026 Fake News Detection System | Developed by Janvi Chauhan"
+    "© 2026 Fake News Detection System | Developed by Janvi Chauhan"
 )
